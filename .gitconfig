@@ -1,0 +1,9 @@
+[push]
+	default = current
+[user]
+	email = shinji.nakanishi@lab.sompo.io
+	name = 中西真二
+[core]
+	excludesfile = /Users/s.nakanishisompo.io/.gitignore_global
+[alias]
+	dmb = "!f () { git checkout $1; git branch --merged|egrep -v '\\*|develop|master|production|release/4'|xargs git branch -d; };f"
