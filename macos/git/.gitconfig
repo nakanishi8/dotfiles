@@ -1,0 +1,31 @@
+# macOS-specific git config
+# Loaded after shared/.gitconfig via [include]
+
+[core]
+	autocrlf = input
+	precomposeunicode = true   # HFS+ Unicode normalization
+
+[credential]
+	helper = osxkeychain
+
+[diff]
+	tool = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	light = false
+	side-by-side = true
+	line-numbers = true
+
+[merge]
+	conflictstyle = diff3
+
+[gpg]
+	program = gpg
+
+# Include shared config
+[include]
+	path = ~/.config/git/shared_gitconfig

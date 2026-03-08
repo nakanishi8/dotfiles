@@ -1,0 +1,29 @@
+# Windows-specific git config
+
+[core]
+	autocrlf = true        # convert LF to CRLF on checkout
+	safecrlf = warn
+	editor = nvim
+	longpaths = true       # enable long path support
+
+[credential]
+	helper = manager        # Git Credential Manager
+
+[diff]
+	tool = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	light = false
+	side-by-side = true
+	line-numbers = true
+
+[merge]
+	conflictstyle = diff3
+
+# Include shared config
+[include]
+	path = ~/.config/git/shared_gitconfig

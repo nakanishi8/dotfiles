@@ -1,0 +1,78 @@
+# Brewfile - macOS package manifest
+# Run: brew bundle install --file=Brewfile
+
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+
+# ============================================================
+# Core CLI tools
+# ============================================================
+brew "git"
+brew "curl"
+brew "wget"
+brew "jq"
+brew "yq"
+brew "ripgrep"           # fast grep
+brew "fd"                # fast find
+brew "fzf"               # fuzzy finder
+brew "bat"               # cat with syntax highlighting
+brew "eza"               # modern ls
+brew "zoxide"            # smarter cd
+brew "delta"             # better git diff
+brew "tree"
+brew "htop"
+brew "bottom"            # better htop
+brew "dust"              # du alternative
+brew "duf"               # df alternative
+brew "tokei"             # code line counter
+brew "hyperfine"         # benchmarking tool
+
+# ============================================================
+# Shell
+# ============================================================
+brew "sheldon"           # zsh plugin manager
+brew "starship"          # cross-shell prompt
+
+# ============================================================
+# Editors
+# ============================================================
+brew "neovim"
+
+# ============================================================
+# Development tools
+# ============================================================
+brew "mise"              # runtime version manager (node, python, ruby, etc.)
+brew "gh"                # GitHub CLI
+brew "git-delta"
+brew "lazygit"           # TUI for git
+brew "direnv"            # per-directory env vars
+
+# ============================================================
+# Network
+# ============================================================
+brew "httpie"
+brew "aria2"
+
+# ============================================================
+# macOS utilities
+# ============================================================
+brew "mas"               # Mac App Store CLI
+brew "mackup"            # backup app settings
+
+# ============================================================
+# Fonts (Nerd Fonts)
+# ============================================================
+cask "font-jetbrains-mono-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-fira-code-nerd-font"
+
+# ============================================================
+# Applications
+# ============================================================
+cask "ghostty"           # terminal emulator
+cask "visual-studio-code"
+cask "raycast"           # Spotlight replacement
+cask "karabiner-elements"
+cask "alt-tab"           # Windows-style alt-tab
+cask "stats"             # menu bar system stats
+cask "rectangle"         # window management

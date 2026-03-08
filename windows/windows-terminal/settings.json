@@ -1,0 +1,89 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-settings-schema",
+
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "copyOnSelect": false,
+    "copyFormatting": "none",
+    "largePasteWarning": true,
+
+    "profiles": {
+        "defaults": {
+            "font": {
+                "face": "JetBrainsMono Nerd Font",
+                "size": 12,
+                "weight": "normal"
+            },
+            "colorScheme": "Catppuccin Mocha",
+            "opacity": 95,
+            "useAcrylic": true,
+            "acrylicOpacity": 0.85,
+            "padding": "12, 12, 12, 12",
+            "scrollbarState": "hidden",
+            "cursorShape": "bar",
+            "cursorColor": "#CDD6F4",
+            "antialiasingMode": "cleartype",
+            "bellStyle": "none",
+            "startingDirectory": "%USERPROFILE%"
+        },
+        "list": [
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore",
+                "hidden": false
+            },
+            {
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "Command Prompt",
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "hidden": false
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure",
+                "hidden": true
+            }
+        ]
+    },
+
+    "schemes": [
+        {
+            "name": "Catppuccin Mocha",
+            "background": "#1E1E2E",
+            "foreground": "#CDD6F4",
+            "black": "#45475A",
+            "red": "#F38BA8",
+            "green": "#A6E3A1",
+            "yellow": "#F9E2AF",
+            "blue": "#89B4FA",
+            "purple": "#F5C2E7",
+            "cyan": "#94E2D5",
+            "white": "#BAC2DE",
+            "brightBlack": "#585B70",
+            "brightRed": "#F38BA8",
+            "brightGreen": "#A6E3A1",
+            "brightYellow": "#F9E2AF",
+            "brightBlue": "#89B4FA",
+            "brightPurple": "#F5C2E7",
+            "brightCyan": "#94E2D5",
+            "brightWhite": "#A6ADC8",
+            "cursorColor": "#F5E0DC",
+            "selectionBackground": "#585B70"
+        }
+    ],
+
+    "actions": [
+        { "command": { "action": "copy", "singleLine": false }, "keys": "ctrl+c" },
+        { "command": "paste", "keys": "ctrl+v" },
+        { "command": "find", "keys": "ctrl+shift+f" },
+        { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+shift+d" },
+        { "command": "newTab", "keys": "ctrl+t" },
+        { "command": "closeTab", "keys": "ctrl+w" },
+        { "command": "nextTab", "keys": "ctrl+tab" },
+        { "command": "prevTab", "keys": "ctrl+shift+tab" },
+        { "command": { "action": "splitPane", "split": "right" }, "keys": "ctrl+shift+e" },
+        { "command": { "action": "splitPane", "split": "down" }, "keys": "ctrl+shift+o" }
+    ]
+}

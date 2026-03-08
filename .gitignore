@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Machine-local overrides (not tracked)
+*.local
+macos/zsh/.zshrc.local
+macos/zsh/.zshenv.local
+
+# Backup files created by installers
+*.bak.*
+
+# Editor
+.vscode/
+*.swp
+*.swo
