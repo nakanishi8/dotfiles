@@ -5,7 +5,7 @@ macOS (Apple Silicon) と Windows 向けの dotfiles です。
 ## 構成
 
 ```
-dotfiles2/
+dotfiles/
 ├── macos/                    # macOS (M-series / zsh / Ghostty)
 │   ├── zsh/
 │   │   ├── .zshenv           # 環境変数・PATH 設定
@@ -63,31 +63,31 @@ cd ~/dotfiles2
 
 ### 含まれる設定
 
-| ツール | 説明 |
-|--------|------|
-| **zsh** | `.zshenv` / `.zshrc` / 補完・履歴設定 |
-| **sheldon** | zsh プラグインマネージャー |
-| **Ghostty** | ターミナルエミュレータ (Catppuccin Mocha テーマ) |
-| **Starship** | クロスシェルプロンプト |
-| **Homebrew** | パッケージ管理 (Brewfile) |
-| **git** | エイリアス・delta diff・osxkeychain |
-| **macOS defaults** | Finder / Dock / キーボード等のシステム設定 |
+| ツール             | 説明                                             |
+| ------------------ | ------------------------------------------------ |
+| **zsh**            | `.zshenv` / `.zshrc` / 補完・履歴設定            |
+| **sheldon**        | zsh プラグインマネージャー                       |
+| **Ghostty**        | ターミナルエミュレータ (Catppuccin Mocha テーマ) |
+| **Starship**       | クロスシェルプロンプト                           |
+| **Homebrew**       | パッケージ管理 (Brewfile)                        |
+| **git**            | エイリアス・delta diff・osxkeychain              |
+| **macOS defaults** | Finder / Dock / キーボード等のシステム設定       |
 
 ### 主要ツール (Brewfile より)
 
-| ツール | 役割 |
-|--------|------|
-| `eza` | `ls` の代替 |
-| `bat` | `cat` の代替 |
-| `zoxide` | スマートな `cd` |
-| `ripgrep` | 高速 `grep` |
-| `fzf` | ファジーファインダー |
-| `delta` | git diff の可視化 |
-| `lazygit` | git TUI |
-| `mise` | Node / Python / Ruby 等のバージョン管理 |
-| `starship` | プロンプト |
-| `sheldon` | zsh プラグインマネージャー |
-| `neovim` | エディタ |
+| ツール     | 役割                                    |
+| ---------- | --------------------------------------- |
+| `eza`      | `ls` の代替                             |
+| `bat`      | `cat` の代替                            |
+| `zoxide`   | スマートな `cd`                         |
+| `ripgrep`  | 高速 `grep`                             |
+| `fzf`      | ファジーファインダー                    |
+| `delta`    | git diff の可視化                       |
+| `lazygit`  | git TUI                                 |
+| `mise`     | Node / Python / Ruby 等のバージョン管理 |
+| `starship` | プロンプト                              |
+| `sheldon`  | zsh プラグインマネージャー              |
+| `neovim`   | エディタ                                |
 
 ---
 
@@ -118,28 +118,28 @@ cd $HOME\dotfiles2
 
 ### 含まれる設定
 
-| ツール | 説明 |
-|--------|------|
-| **PowerShell** | プロファイル (PSReadLine / エイリアス / 関数) |
-| **Starship** | クロスシェルプロンプト |
-| **Windows Terminal** | Catppuccin Mocha テーマ / キーバインド |
-| **git** | CRLF 設定・Git Credential Manager |
+| ツール               | 説明                                          |
+| -------------------- | --------------------------------------------- |
+| **PowerShell**       | プロファイル (PSReadLine / エイリアス / 関数) |
+| **Starship**         | クロスシェルプロンプト                        |
+| **Windows Terminal** | Catppuccin Mocha テーマ / キーバインド        |
+| **git**              | CRLF 設定・Git Credential Manager             |
 
 ### 主要パッケージ (winget)
 
-| ツール | 役割 |
-|--------|------|
-| `eza` | `ls` の代替 |
-| `bat` | `cat` の代替 |
-| `zoxide` | スマートな `cd` |
-| `ripgrep` | 高速 `grep` |
-| `fzf` | ファジーファインダー |
-| `delta` | git diff の可視化 |
-| `lazygit` | git TUI |
-| `mise` | Node / Python / Ruby 等のバージョン管理 |
-| `starship` | プロンプト |
-| `neovim` | エディタ |
-| `gh` | GitHub CLI |
+| ツール     | 役割                                    |
+| ---------- | --------------------------------------- |
+| `eza`      | `ls` の代替                             |
+| `bat`      | `cat` の代替                            |
+| `zoxide`   | スマートな `cd`                         |
+| `ripgrep`  | 高速 `grep`                             |
+| `fzf`      | ファジーファインダー                    |
+| `delta`    | git diff の可視化                       |
+| `lazygit`  | git TUI                                 |
+| `mise`     | Node / Python / Ruby 等のバージョン管理 |
+| `starship` | プロンプト                              |
+| `neovim`   | エディタ                                |
+| `gh`       | GitHub CLI                              |
 
 ---
 

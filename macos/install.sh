@@ -114,6 +114,25 @@ link_git() {
 }
 
 # ============================================================
+# VSCode Extensions
+# ============================================================
+install_vscode_extensions() {
+  info "Installing VSCode extensions..."
+  if ! command -v code &>/dev/null; then
+    warn "VSCode 'code' command not found. Skipping extension install."
+    warn "  -> Open VSCode and run: Shell Command: Install 'code' command in PATH"
+    return
+  fi
+  local extensions_file="$SHARED_DIR/vscode/extensions.txt"
+  while IFS= read -r ext || [[ -n "$ext" ]]; do
+    [[ -z "$ext" || "$ext" == \#* ]] && continue
+    info "  -> $ext"
+    run code --install-extension "$ext" --force
+  done < "$extensions_file"
+  success "VSCode extensions installed."
+}
+
+# ============================================================
 # macOS System Defaults
 # ============================================================
 set_macos_defaults() {
@@ -174,6 +193,7 @@ main() {
   link_starship
   link_ghostty
   link_git
+  install_vscode_extensions
   set_macos_defaults
 
   echo

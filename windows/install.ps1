@@ -80,6 +80,8 @@ $WingetPackages = @(
     @{ Id = "GitHub.cli" },
     # Terminal
     @{ Id = "Microsoft.WindowsTerminal" },
+    # Editor
+    @{ Id = "Microsoft.VisualStudioCode" },
     # Fonts (via scoop or manual install recommended)
     @{ Id = "DEVCOM.JetBrainsMonoNerdFont" }
 )
@@ -93,6 +95,25 @@ function Install-WingetPackages {
         } "winget install $($pkg.Id)"
     }
     Write-Success "Winget packages installed."
+}
+
+# ============================================================
+# VSCode Extensions
+# ============================================================
+function Install-VSCodeExtensions {
+    Write-Info "Installing VSCode extensions..."
+    $codeCmd = Get-Command code -ErrorAction SilentlyContinue
+    if (-not $codeCmd) {
+        Write-Warn "VSCode 'code' command not found. Skipping extension install."
+        Write-Warn "  -> Reopen PowerShell after VSCode installation and re-run this script."
+        return
+    }
+    $extensionsFile = Join-Path $SharedDir "vscode\extensions.txt"
+    Get-Content $extensionsFile | Where-Object { $_ -and -not $_.StartsWith("#") } | ForEach-Object {
+        Write-Info "  -> $_"
+        Invoke-Run { code --install-extension $_ --force } "code --install-extension $_"
+    }
+    Write-Success "VSCode extensions installed."
 }
 
 # ============================================================
@@ -198,6 +219,7 @@ function Main {
     Write-Host
 
     Install-WingetPackages
+    Install-VSCodeExtensions
     Install-PSModules
     Set-PowerShellConfig
     Set-StarshipConfig
