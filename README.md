@@ -50,8 +50,8 @@ dotfiles/
 ### インストール
 
 ```bash
-git clone https://github.com/<your-username>/dotfiles2.git ~/dotfiles2
-cd ~/dotfiles2
+git clone https://github.com/<your-username>/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 ./macos/install.sh
 ```
 
@@ -105,8 +105,8 @@ cd ~/dotfiles2
 PowerShell を**管理者として**起動し:
 
 ```powershell
-git clone https://github.com/<your-username>/dotfiles2.git $HOME\dotfiles2
-cd $HOME\dotfiles2
+git clone https://github.com/<your-username>/dotfiles.git $HOME\dotfiles
+cd $HOME\dotfiles
 .\windows\install.ps1
 ```
 
