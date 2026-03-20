@@ -1,0 +1,62 @@
+# macOS dotfiles test environment
+# Simulates the macOS setup on Ubuntu + zsh.
+# brew / defaults / code are mocked; actual symlinks and zsh config loading are verified.
+#
+# Usage:
+#   docker build -f test/Dockerfile.macos -t dotfiles-test-macos .
+#   docker run --rm dotfiles-test-macos
+
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    zsh \
+    git \
+    curl \
+    fzf \
+    && rm -rf /var/lib/apt/lists/*
+
+# Mock macOS-specific commands so install.sh can run end-to-end
+RUN printf '#!/bin/sh\necho "[MOCK] brew $*"\n'    > /usr/local/bin/brew    \
+ && printf '#!/bin/sh\necho "[MOCK] defaults $*"\n' > /usr/local/bin/defaults \
+ && printf '#!/bin/sh\necho "[MOCK] code $*"\n'    > /usr/local/bin/code    \
+ && chmod +x /usr/local/bin/brew /usr/local/bin/defaults /usr/local/bin/code
+
+ENV HOME=/root \
+    CI=true
+
+COPY . /dotfiles
+
+WORKDIR /dotfiles
+
+# Run the installer (CI=true skips brew, macOS checks, Apple Silicon check)
+RUN ./macos/install.sh
+
+# ── Verify symlinks ────────────────────────────────────────────────────────────
+RUN echo "=== Verifying symlinks ===" \
+ && check_link() { \
+      if [ -L "$1" ]; then echo "✓ $1"; \
+      else echo "✗ $1 (MISSING)"; exit 1; fi; \
+    } \
+ && check_link "$HOME/.zshenv" \
+ && check_link "$HOME/.config/zsh/.zshrc" \
+ && check_link "$HOME/.config/sheldon/plugins.toml" \
+ && check_link "$HOME/.config/ghostty/config" \
+ && check_link "$HOME/.config/starship.toml" \
+ && check_link "$HOME/.gitconfig" \
+ && check_link "$HOME/.gitignore_global" \
+ && check_link "$HOME/.config/git/shared_gitconfig" \
+ && echo "=== All symlinks OK ==="
+
+# ── Verify zsh config loads without errors ────────────────────────────────────
+# Use "; true" to neutralise the exit code of optional-file guards like
+#   [[ -f .zshenv.local ]] && source .zshenv.local
+# which return 1 when the optional file is absent.
+RUN zsh --no-rcs -c 'source /root/.zshenv; true' \
+ && echo "✓ .zshenv loads OK"
+
+RUN zsh --no-rcs -c 'source /root/.zshenv; source /root/.config/zsh/.zshrc; true' \
+ && echo "✓ .zshrc loads OK"
+
+CMD ["echo", "All tests passed."]

@@ -56,10 +56,12 @@ symlink() {
 # Checks
 # ============================================================
 check_macos() {
+  [[ "${CI:-false}" == "true" ]] && { info "CI mode: skipping macOS check."; return; }
   [[ "$(uname)" == "Darwin" ]] || error "This script is for macOS only."
 }
 
 check_apple_silicon() {
+  [[ "${CI:-false}" == "true" ]] && { info "CI mode: skipping Apple Silicon check."; return; }
   [[ "$(uname -m)" == "arm64" ]] || error "This script requires Apple Silicon (M-series) Mac."
 }
 
@@ -67,6 +69,7 @@ check_apple_silicon() {
 # Homebrew
 # ============================================================
 install_homebrew() {
+  [[ "${CI:-false}" == "true" ]] && { info "CI mode: skipping Homebrew install."; return; }
   info "Checking Homebrew..."
   if ! command -v brew &>/dev/null; then
     info "Installing Homebrew..."
@@ -78,6 +81,7 @@ install_homebrew() {
 }
 
 install_brew_packages() {
+  [[ "${CI:-false}" == "true" ]] && { info "CI mode: skipping Homebrew packages."; return; }
   info "Installing Homebrew packages..."
   run brew bundle install --file="$MACOS_DIR/homebrew/Brewfile" --no-lock
   success "Homebrew packages installed."

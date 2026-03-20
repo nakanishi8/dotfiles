@@ -1,0 +1,79 @@
+# Windows dotfiles test environment
+# Runs install.ps1 inside a PowerShell Core container (Linux).
+# winget / code / PS module installs and registry operations are skipped via CI=true.
+# Symlinks and the PowerShell profile are verified.
+#
+# NOTE: Windows-specific features (Windows Terminal, Registry) require a real
+#       Windows environment and cannot be tested here.
+#
+# Usage:
+#   docker build -f test/Dockerfile.windows -t dotfiles-test-windows .
+#   docker run --rm dotfiles-test-windows
+
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies and PowerShell Core from GitHub release tarball
+# (Microsoft's apt feed is amd64-only; the tarball supports arm64)
+ARG PS_VERSION=7.4.6
+RUN apt-get update && apt-get install -y curl git libicu74 libssl3 && \
+    rm -rf /var/lib/apt/lists/* && \
+    ARCH=$(dpkg --print-architecture) && \
+    curl -fsSL "https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/powershell-${PS_VERSION}-linux-${ARCH}.tar.gz" \
+        -o /tmp/powershell.tar.gz && \
+    mkdir -p /opt/powershell && \
+    tar -xzf /tmp/powershell.tar.gz -C /opt/powershell && \
+    rm /tmp/powershell.tar.gz && \
+    chmod +x /opt/powershell/pwsh && \
+    ln -s /opt/powershell/pwsh /usr/local/bin/pwsh
+
+# Mock winget (not available on Linux)
+RUN printf '#!/bin/bash\necho "[MOCK] winget $@"\n' > /usr/local/bin/winget \
+ && chmod +x /usr/local/bin/winget
+
+# Mock VSCode CLI (will be invoked by Install-VSCodeExtensions)
+RUN printf '#!/bin/bash\necho "[MOCK] code $@"\n' > /usr/local/bin/code \
+ && chmod +x /usr/local/bin/code
+
+ENV CI=true \
+    HOME=/root \
+    USERPROFILE=/root \
+    LOCALAPPDATA=/tmp/localappdata
+
+COPY . /dotfiles
+
+WORKDIR /dotfiles
+
+# Run the installer (CI=true skips winget, PS modules, registry)
+RUN pwsh -File ./windows/install.ps1
+
+# ── Verify symlinks ────────────────────────────────────────────────────────────
+RUN pwsh -Command " \
+    \$failed = 0; \
+    \$links = @{ \
+        '~/.gitconfig'               = '/root/.gitconfig'; \
+        '~/.gitignore_global'        = '/root/.gitignore_global'; \
+        '~/.config/git/shared_gitconfig' = '/root/.config/git/shared_gitconfig'; \
+        '~/.config/starship.toml'    = '/root/.config/starship.toml'; \
+        'PowerShell profile'         = \$PROFILE \
+    }; \
+    \$links.GetEnumerator() | ForEach-Object { \
+        \$path = \$_.Value; \
+        \$item = Get-Item \$path -Force -ErrorAction SilentlyContinue; \
+        if (\$item -and \$item.LinkType -eq 'SymbolicLink') { \
+            Write-Host \"✓ \$(\$_.Key)\" -ForegroundColor Green \
+        } else { \
+            Write-Host \"✗ \$(\$_.Key): \$path (MISSING or not a symlink)\" -ForegroundColor Red; \
+            \$failed++ \
+        } \
+    }; \
+    if (\$failed -gt 0) { Write-Host 'Symlink verification FAILED' -ForegroundColor Red; exit 1 }; \
+    Write-Host '=== All symlinks OK ===' -ForegroundColor Green"
+
+# ── Verify PowerShell profile loads without errors ───────────────────────────
+RUN pwsh -NoProfile -Command " \
+    . \$PROFILE; \
+    Write-Host '✓ PowerShell profile loads OK' -ForegroundColor Green"
+
+CMD ["pwsh", "-Command", "Write-Host 'All tests passed.'"]

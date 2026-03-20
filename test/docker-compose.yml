@@ -1,0 +1,12 @@
+services:
+  macos:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile.macos
+    image: dotfiles-test-macos
+
+  windows:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile.windows
+    image: dotfiles-test-windows

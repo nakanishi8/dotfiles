@@ -87,6 +87,7 @@ $WingetPackages = @(
 )
 
 function Install-WingetPackages {
+    if ($env:CI -eq "true") { Write-Info "CI mode: skipping winget packages."; return }
     Write-Info "Installing packages via winget..."
     foreach ($pkg in $WingetPackages) {
         Write-Info "  -> $($pkg.Id)"
@@ -120,6 +121,7 @@ function Install-VSCodeExtensions {
 # PowerShell modules
 # ============================================================
 function Install-PSModules {
+    if ($env:CI -eq "true") { Write-Info "CI mode: skipping PowerShell modules."; return }
     Write-Info "Installing PowerShell modules..."
     $modules = @(
         "PSReadLine",
@@ -193,6 +195,7 @@ function Set-WindowsTerminalConfig {
 # Enable Developer Mode & long paths
 # ============================================================
 function Set-WindowsDefaults {
+    if ($env:CI -eq "true") { Write-Info "CI mode: skipping Windows registry/defaults."; return }
     Write-Info "Configuring Windows settings..."
 
     # Long path support
